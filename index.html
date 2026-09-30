@@ -59,7 +59,12 @@
     text-align:center;color:var(--muted);font-size:14px;}
   @media (max-width:520px){
     .stats{grid-template-columns:1fr;}
-    header h1{font-size:20px;padding-right:0;}
+    .visits{position:static;display:inline-block;margin:0 0 14px auto;}
+    header{display:flex;flex-direction:column;align-items:stretch;}
+    header .field{padding-right:0;order:2;}
+    header h1{font-size:20px;padding-right:0;order:3;}
+    .warn{order:4;}
+    .visits{order:1;align-self:flex-end;}
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){--bg:#0f141b;--card:#161c26;--ink:#e6eaf2;
