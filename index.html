@@ -19,10 +19,9 @@
   .wrap{max-width:820px;margin:0 auto;padding:16px;}
   header{position:relative;background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;
     border-radius:18px;padding:26px 22px;margin-bottom:18px;}
-  .visits{position:absolute;top:12px;right:14px;display:flex;align-items:center;
-    gap:6px;background:rgba(255,255,255,.16);padding:5px 10px;border-radius:999px;
-    font-size:12px;line-height:1;}
-  .visits img{display:block;height:16px;}
+  .visits{position:absolute;top:12px;right:14px;text-align:right;line-height:1.1;}
+  .visits .vlabel{font-size:11px;letter-spacing:.5px;text-transform:uppercase;opacity:.85;}
+  .visits .vnum{font-size:26px;font-weight:700;}
   header .field{font-size:13px;letter-spacing:.5px;text-transform:uppercase;
     opacity:.9;margin-bottom:8px;}
   header h1{margin:0 0 12px;font-size:23px;line-height:1.35;}
@@ -71,10 +70,10 @@
 <div class="wrap">
 
   <header>
-    <span class="visits" title="Lượt truy cập">
-      <span>Lượt truy cập:</span>
-      <img src="https://visitor-badge.laobi.icu/badge?page_id=cicong99.tim-to-ctr&left_text=&right_color=green" alt="lượt truy cập">
-    </span>
+    <div class="visits">
+      <div class="vlabel">Lượt truy cập</div>
+      <div class="vnum" id="visitCount">…</div>
+    </div>
     <div class="field">Lĩnh vực: Sinh học trên máy tính và Sinh – Tin</div>
     <h1>Hệ thống hỗ trợ chẩn đoán tim to trên ảnh X-quang ngực kết hợp phân loại đa mô hình và đo tỉ số tim – lồng ngực (CTR)</h1>
     <span class="warn">Công cụ hỗ trợ — không thay thế chẩn đoán của bác sĩ</span>
@@ -147,5 +146,17 @@
   </section>
 
 </div>
+<script>
+  (function(){
+    var el = document.getElementById('visitCount');
+    fetch('https://api.counterapi.dev/v1/cicong99-timto/visits/up')
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var n = (d && (d.count !== undefined ? d.count : d.value));
+        el.textContent = (typeof n === 'number') ? n.toLocaleString('vi-VN') : '—';
+      })
+      .catch(function(){ el.textContent = '—'; });
+  })();
+</script>
 </body>
 </html>
