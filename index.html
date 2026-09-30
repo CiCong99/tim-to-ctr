@@ -149,13 +149,26 @@
 <script>
   (function(){
     var el = document.getElementById('visitCount');
-    fetch('https://api.counterapi.dev/v1/cicong99-timto/visits/up')
+    function show(n){ el.textContent = Number(n).toLocaleString('vi-VN'); }
+
+    // Dự phòng: đếm bằng bộ nhớ trình duyệt nếu dịch vụ mạng lỗi
+    function localFallback(){
+      try {
+        var k = 'tim_to_visits';
+        var v = parseInt(localStorage.getItem(k) || '0', 10) + 1;
+        localStorage.setItem(k, v);
+        show(v);
+      } catch(e){ el.textContent = '—'; }
+    }
+
+    // Bộ đếm chính: CountAPI (miễn phí, đếm thật, chung cho mọi người xem)
+    fetch('https://api.countapi.xyz/hit/cicong99.github.io/tim-to-ctr')
       .then(function(r){ return r.json(); })
       .then(function(d){
-        var n = (d && (d.count !== undefined ? d.count : d.value));
-        el.textContent = (typeof n === 'number') ? n.toLocaleString('vi-VN') : '—';
+        if (d && typeof d.value === 'number') { show(d.value); }
+        else { localFallback(); }
       })
-      .catch(function(){ el.textContent = '—'; });
+      .catch(function(){ localFallback(); });
   })();
 </script>
 </body>
